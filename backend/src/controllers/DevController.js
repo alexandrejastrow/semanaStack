@@ -3,8 +3,7 @@ const Dev = require("../models/Dev");
 const parseStringAsArray = require("../utils/parseStringAsArray");
 module.exports = {
   async store(req, res) {
-    const { github_username, techs, latitude, logitude } = req.body;
-
+    const { github_username, techs, latitude, longitude } = req.body;
     let auxDev = await Dev.findOne({ github_username });
 
     if (auxDev) {
@@ -17,7 +16,7 @@ module.exports = {
     const { name = login, avatar_url, bio } = response.data;
     const location = {
       type: "Point",
-      coordinates: [logitude, latitude]
+      coordinates: [longitude, latitude]
     };
     const dev = await Dev.create({
       github_username,
@@ -26,6 +25,7 @@ module.exports = {
       techs: techsArray,
       location
     });
+    console.log(dev);
     return res.json(dev);
   },
 
